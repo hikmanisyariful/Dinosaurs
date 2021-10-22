@@ -94,6 +94,16 @@ const pigeon = new Dino({
 
 // Create Human Object
 
+function Human(name, feet, inches, weight, diet) {
+  this.name = name;
+  this.feet = feet;
+  this.inches = inches;
+  this.weight = weight;
+  this.diet = diet;
+}
+
+const human = new Human("My Human Name", 5, 4, 100, "Herbavor");
+
 // Use IIFE to get human data from form
 
 // Create Dino Compare Method 1
