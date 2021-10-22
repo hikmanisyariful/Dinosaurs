@@ -94,7 +94,8 @@ const pigeon = new Dino({
 
 // Create Human Object
 
-function Human(name, feet, inches, weight, diet) {
+function Human(data) {
+  const { name, feet, inches, weight, diet } = data;
   this.name = name;
   this.feet = feet;
   this.inches = inches;
@@ -102,28 +103,53 @@ function Human(name, feet, inches, weight, diet) {
   this.diet = diet;
 }
 
-const human = new Human("My Human Name", 5, 4, 100, "Herbavor");
+const createHuman = function(data) {
+  return new Human(data);
+};
 
 // Use IIFE to get human data from form
 
-let person = (function() {
+let human = (function() {
   let data = {
+    name: document.getElementById("name").value,
+    feet: Number(document.getElementById("feet").value),
+    inches: Number(document.getElementById("inches").value),
+    weight: Number(document.getElementById("weight").value),
+    diet: document.getElementById("diet").value
+  };
+
+  return {
+    getName: function() {
+      console.log(data);
+      return data;
+    }
+  };
+})();
+
+const formElement = document.getElementById("dino-compare");
+const formName = "human-form";
+formElement.name = formName;
+
+const button = document.getElementById("btn");
+button.addEventListener("click", function() {
+  const form = document.forms[formName];
+  const name = form.name.value.trim();
+  const feet = form.feet.value.trim();
+  const inches = form.inches.value.trim();
+  const weight = form.weight.value.trim();
+  const diet = form.diet.value.trim();
+  let dataFromForm = {
     name,
     feet,
     inches,
     weight,
     diet
   };
+  console.log(dataFromForm);
 
-  return {
-    getName: function() {
-      return data;
-    },
-    setName: function(newData) {
-      data = newData;
-    }
-  };
-})();
+  humanObject = createHuman(dataFromForm);
+  console.log(humanObject);
+});
 
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
