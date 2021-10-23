@@ -12,36 +12,6 @@ function Dino(dinoObj) {
 
 // Create Dino Objects
 
-// I try to get dino.json with using XMLHttpRequest,
-// but I get error about CORS Policy.
-// How to solve this problem?
-var getJSON = function(url, callback) {
-  var xhr = new XMLHttpRequest();
-  xhr.overrideMimeType("application/json");
-  xhr.open("GET", url, true);
-  xhr.responseType = "json";
-
-  xhr.onload = function() {
-    var status = xhr.status;
-
-    if (status === 200) {
-      callback(null, xhr.response);
-    } else {
-      callback(status);
-    }
-  };
-
-  xhr.send(null);
-};
-
-getJSON("./dino.json", function(err, data) {
-  if (err != null) {
-    console.log("INI ERR", err);
-  } else {
-    console.log("INI DATA", data);
-  }
-});
-
 const triceratops = new Dino({
   species: "Triceratops",
   weight: 13000,
@@ -164,8 +134,23 @@ let human = () =>
     return data;
   })();
 
+let humanObj = {};
+
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
+Dino.prototype.compareWeight = function() {
+  console.log(this.weight, humanObj.weight);
+  if (this.weight > humanObj.weight) {
+    return `${this.species} was ${this.weight -
+      humanObj.weight} lbs heavier than you!`;
+  } else if (this.weight < humanObj.weight) {
+    return `You were ${humanObj.weight - this.weight} lbs heaver than ${
+      this.species
+    }.`;
+  } else if (this.weight === humanObj.weight) {
+    return `You have same weight with ${this.species}.`;
+  }
+};
 
 // Create Dino Compare Method 2
 // NOTE: Weight in JSON file is in lbs, height in inches.
@@ -174,7 +159,7 @@ let human = () =>
 // NOTE: Weight in JSON file is in lbs, height in inches.
 
 // Generate Tiles for each Dino in Array
-const tileObjects = [];
+let tileObjects = [];
 
 const generateTiles = () => {
   dinos.forEach(dinoObj => {
@@ -183,14 +168,13 @@ const generateTiles = () => {
     dinoTile.innerHTML = `
         <h3>${dinoObj.species}</h3>
         <img src='./images/${dinoObj.species.toLowerCase()}.png' />
-        <p>${dinoObj.fact}
+        <p>${dinoObj.compareWeight()}
         `;
     tileObjects.push(dinoTile);
   });
 };
 
 const generateHumanTile = () => {
-  const humanObj = createHuman(human());
   console.log("This is humanObj", humanObj);
 
   const humanTile = document.createElement("div");
@@ -205,6 +189,7 @@ const generateHumanTile = () => {
 
 // Add tiles to DOM
 const addTilesToDOM = () => {
+  console.log("THIS IS tileObjects", tileObjects);
   const gridNode = document.getElementById("grid");
   tileObjects.forEach(tileObj => {
     gridNode.appendChild(tileObj);
@@ -234,6 +219,8 @@ button.addEventListener("click", function() {
   if (!name || !feet || !inches || !weight || !diet) {
     return alert("Please to complete form!");
   }
+
+  humanObj = createHuman(human());
 
   hideForm();
   generateTiles();
