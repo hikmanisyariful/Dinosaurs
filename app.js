@@ -148,22 +148,18 @@ const createHuman = function(data) {
 
 // Use IIFE to get human data from form
 
-let human = (function() {
-  let data = {
-    name: document.getElementById("name").value,
-    feet: Number(document.getElementById("feet").value),
-    inches: Number(document.getElementById("inches").value),
-    weight: Number(document.getElementById("weight").value),
-    diet: document.getElementById("diet").value
-  };
+let human = () =>
+  (function() {
+    let data = {
+      name: document.getElementById("name").value,
+      feet: Number(document.getElementById("feet").value),
+      inches: Number(document.getElementById("inches").value),
+      weight: Number(document.getElementById("weight").value),
+      diet: document.getElementById("diet").value
+    };
 
-  return {
-    getName: function() {
-      console.log(data);
-      return data;
-    }
-  };
-})();
+    return data;
+  })();
 
 const formElement = document.getElementById("dino-compare");
 const formName = "human-form";
@@ -177,17 +173,13 @@ button.addEventListener("click", function() {
   const inches = form.inches.value.trim();
   const weight = form.weight.value.trim();
   const diet = form.diet.value.trim();
-  let dataFromForm = {
-    name,
-    feet,
-    inches,
-    weight,
-    diet
-  };
-  console.log(dataFromForm);
 
-  humanObject = createHuman(dataFromForm);
-  console.log(humanObject);
+  if (!name || !feet || !inches || !weight || !diet) {
+    return alert("Please to complete form!");
+  }
+
+  humanObject = createHuman(human());
+  console.log("This is humanObject", humanObject);
   generateTiles();
   addTilesToDOM();
 });
