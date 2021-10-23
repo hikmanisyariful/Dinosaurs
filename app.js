@@ -102,7 +102,6 @@ const dinos = [
   pteranodon,
   pigeon
 ];
-console.log("INI DINOS", dinos);
 
 // Create Human Object
 
@@ -122,7 +121,7 @@ const createHuman = function(data) {
 
 // Use IIFE to get human data from form
 
-let human = () =>
+let getHuman = () =>
   (function() {
     let data = {
       name: document.getElementById("name").value,
@@ -140,7 +139,6 @@ let humanObj = {};
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
 Dino.prototype.compareWeight = function() {
-  //   console.log(this.weight, humanObj.weight);
   if (this.weight > humanObj.weight) {
     return `${this.species} was ${this.weight -
       humanObj.weight} lbs heavier than you!`;
@@ -156,16 +154,10 @@ Dino.prototype.compareWeight = function() {
 // Create Dino Compare Method 2
 // NOTE: Weight in JSON file is in lbs, height in inches.
 Dino.prototype.compareHeight = function() {
-  console.log(
-    this.height,
-    humanObj.heightInches,
-    humanObj.heightInches > this.height
-  );
   if (this.height > humanObj.heightInches) {
     return `${this.species} was ${this.height -
       humanObj.heightInches} inches taller than you!`;
   } else if (this.height < humanObj.heightInches) {
-    console.log("RETURN INI");
     return `You were ${humanObj.heightInches -
       this.height} inches taller than ${this.species}.`;
   } else if (this.height === humanObj.heightInches) {
@@ -175,6 +167,13 @@ Dino.prototype.compareHeight = function() {
 
 // Create Dino Compare Method 3
 // NOTE: Weight in JSON file is in lbs, height in inches.
+Dino.prototype.compareDiet = function() {
+  if (humanObj.diet.toLowerCase() === this.diet) {
+    return `${this.species} is a ${this.diet}, that is just like you.`;
+  } else {
+    return `${this.species} is a ${this.diet}, that is unlike you.`;
+  }
+};
 
 // Generate Tiles for each Dino in Array
 let tileObjects = [];
@@ -187,15 +186,13 @@ const generateTiles = () => {
     dinoTile.innerHTML = `
         <h3>${dinoObj.species}</h3>
         <img src='./images/${dinoObj.species.toLowerCase()}.png' />
-        <p>${dinoObj.compareHeight()}
+        <p>${dinoObj.compareDiet()}
         `;
     tileObjects.push(dinoTile);
   });
 };
 
 const generateHumanTile = () => {
-  console.log("This is humanObj", humanObj);
-
   const humanTile = document.createElement("div");
   humanTile.className = "grid-item";
   humanTile.innerHTML = `
@@ -208,7 +205,6 @@ const generateHumanTile = () => {
 
 // Add tiles to DOM
 const addTilesToDOM = () => {
-  console.log("THIS IS tileObjects", tileObjects);
   const gridNode = document.getElementById("grid");
   tileObjects.forEach(tileObj => {
     gridNode.appendChild(tileObj);
@@ -239,7 +235,7 @@ button.addEventListener("click", function() {
     return alert("Please to complete form!");
   }
 
-  humanObj = createHuman(human());
+  humanObj = createHuman(getHuman());
 
   hideForm();
   generateTiles();
