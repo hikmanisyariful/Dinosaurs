@@ -3,7 +3,7 @@ function Dino(dinoObj) {
   const { species, weight, height, diet, where, when, fact } = dinoObj;
   this.species = species;
   this.weight = weight;
-  this.height = height;
+  this.height = Number(height);
   this.diet = diet;
   this.where = where;
   this.when = when;
@@ -111,6 +111,7 @@ function Human(data) {
   this.name = name;
   this.feet = feet;
   this.inches = inches;
+  this.heightInches = this.feet * 12 + this.inches;
   this.weight = weight;
   this.diet = diet;
 }
@@ -139,7 +140,7 @@ let humanObj = {};
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
 Dino.prototype.compareWeight = function() {
-  console.log(this.weight, humanObj.weight);
+  //   console.log(this.weight, humanObj.weight);
   if (this.weight > humanObj.weight) {
     return `${this.species} was ${this.weight -
       humanObj.weight} lbs heavier than you!`;
@@ -154,6 +155,23 @@ Dino.prototype.compareWeight = function() {
 
 // Create Dino Compare Method 2
 // NOTE: Weight in JSON file is in lbs, height in inches.
+Dino.prototype.compareHeight = function() {
+  console.log(
+    this.height,
+    humanObj.heightInches,
+    humanObj.heightInches > this.height
+  );
+  if (this.height > humanObj.heightInches) {
+    return `${this.species} was ${this.height -
+      humanObj.heightInches} inches taller than you!`;
+  } else if (this.height < humanObj.heightInches) {
+    console.log("RETURN INI");
+    return `You were ${humanObj.heightInches -
+      this.height} inches taller than ${this.species}.`;
+  } else if (this.height === humanObj.heightInches) {
+    return `You have same height with ${this.species}.`;
+  }
+};
 
 // Create Dino Compare Method 3
 // NOTE: Weight in JSON file is in lbs, height in inches.
@@ -164,11 +182,12 @@ let tileObjects = [];
 const generateTiles = () => {
   dinos.forEach(dinoObj => {
     const dinoTile = document.createElement("div");
+
     dinoTile.className = "grid-item";
     dinoTile.innerHTML = `
         <h3>${dinoObj.species}</h3>
         <img src='./images/${dinoObj.species.toLowerCase()}.png' />
-        <p>${dinoObj.compareWeight()}
+        <p>${dinoObj.compareHeight()}
         `;
     tileObjects.push(dinoTile);
   });
