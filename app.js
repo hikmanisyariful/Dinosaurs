@@ -14,6 +14,7 @@ function Dino(dinoObj) {
 
 var getJSON = function(url, callback) {
   var xhr = new XMLHttpRequest();
+  xhr.overrideMimeType("application/json");
   xhr.open("GET", url, true);
   xhr.responseType = "json";
 
@@ -27,7 +28,7 @@ var getJSON = function(url, callback) {
     }
   };
 
-  xhr.send();
+  xhr.send(null);
 };
 
 getJSON("./dino.json", function(err, data) {
@@ -118,6 +119,18 @@ const pigeon = new Dino({
   fact: "All birds are living dinosaurs."
 });
 
+const dinos = [
+  triceratops,
+  tyrannosaurusRex,
+  anklyosaurus,
+  brachiosaurus,
+  stegosaurus,
+  elasmosaurus,
+  pteranodon,
+  pigeon
+];
+console.log("INI DINOS", dinos);
+
 // Create Human Object
 
 function Human(data) {
@@ -175,6 +188,8 @@ button.addEventListener("click", function() {
 
   humanObject = createHuman(dataFromForm);
   console.log(humanObject);
+  generateTiles();
+  addTilesToDOM();
 });
 
 // Create Dino Compare Method 1
@@ -187,10 +202,28 @@ button.addEventListener("click", function() {
 // NOTE: Weight in JSON file is in lbs, height in inches.
 
 // Generate Tiles for each Dino in Array
+const tileObjects = [];
 
-const generateTiles = function() {};
+const generateTiles = () => {
+  dinos.forEach(dinoObj => {
+    const dinoTile = document.createElement("div");
+    dinoTile.className = "grid-item";
+    dinoTile.innerHTML = `
+        <h3>${dinoObj.species}</h3>
+        <img src='./images/${dinoObj.species.toLowerCase()}.png' />
+        <p>${dinoObj.fact}
+        `;
+    tileObjects.push(dinoTile);
+  });
+};
 
 // Add tiles to DOM
+const addTilesToDOM = () => {
+  const gridNode = document.getElementById("grid");
+  tileObjects.forEach(tileObj => {
+    gridNode.appendChild(tileObj);
+  });
+};
 
 // Remove form from screen
 
