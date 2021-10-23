@@ -218,7 +218,8 @@ const generateHumanTile = () => {
     <h3>${humanObj.name}</h3>
     <img src='./images/human.png' />
   `;
-  tileObjects.push(humanTile);
+  //   tileObjects.push(humanTile);
+  tileObjects.splice(4, 0, humanTile);
 };
 
 // Add tiles to DOM
