@@ -12,6 +12,9 @@ function Dino(dinoObj) {
 
 // Create Dino Objects
 
+// I try to get dino.json with using XMLHttpRequest,
+// but I get error about CORS Policy.
+// How to solve this problem?
 var getJSON = function(url, callback) {
   var xhr = new XMLHttpRequest();
   xhr.overrideMimeType("application/json");
