@@ -12,6 +12,32 @@ function Dino(dinoObj) {
 
 // Create Dino Objects
 
+var getJSON = function(url, callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+  xhr.responseType = "json";
+
+  xhr.onload = function() {
+    var status = xhr.status;
+
+    if (status === 200) {
+      callback(null, xhr.response);
+    } else {
+      callback(status);
+    }
+  };
+
+  xhr.send();
+};
+
+getJSON("./dino.json", function(err, data) {
+  if (err != null) {
+    console.log("INI ERR", err);
+  } else {
+    console.log("INI DATA", data);
+  }
+});
+
 const triceratops = new Dino({
   species: "Triceratops",
   weight: 13000,
@@ -161,6 +187,8 @@ button.addEventListener("click", function() {
 // NOTE: Weight in JSON file is in lbs, height in inches.
 
 // Generate Tiles for each Dino in Array
+
+const generateTiles = function() {};
 
 // Add tiles to DOM
 
