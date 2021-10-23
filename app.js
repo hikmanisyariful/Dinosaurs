@@ -161,28 +161,6 @@ let human = () =>
     return data;
   })();
 
-const formElement = document.getElementById("dino-compare");
-const formName = "human-form";
-formElement.name = formName;
-
-const button = document.getElementById("btn");
-button.addEventListener("click", function() {
-  const form = document.forms[formName];
-  const name = form.name.value.trim();
-  const feet = form.feet.value.trim();
-  const inches = form.inches.value.trim();
-  const weight = form.weight.value.trim();
-  const diet = form.diet.value.trim();
-
-  if (!name || !feet || !inches || !weight || !diet) {
-    return alert("Please to complete form!");
-  }
-
-  generateTiles();
-  generateHumanTile();
-  addTilesToDOM();
-});
-
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
 
@@ -232,4 +210,30 @@ const addTilesToDOM = () => {
 
 // Remove form from screen
 
+const hideForm = () => {
+  document.getElementById("dino-compare").style.display = "none";
+};
+
 // On button click, prepare and display infographic
+const formElement = document.getElementById("dino-compare");
+const formName = "human-form";
+formElement.name = formName;
+
+const button = document.getElementById("btn");
+button.addEventListener("click", function() {
+  const form = document.forms[formName];
+  const name = form.name.value.trim();
+  const feet = form.feet.value.trim();
+  const inches = form.inches.value.trim();
+  const weight = form.weight.value.trim();
+  const diet = form.diet.value.trim();
+
+  if (!name || !feet || !inches || !weight || !diet) {
+    return alert("Please to complete form!");
+  }
+
+  hideForm();
+  generateTiles();
+  generateHumanTile();
+  addTilesToDOM();
+});
