@@ -180,13 +180,22 @@ let tileObjects = [];
 
 const generateTiles = () => {
   dinos.forEach(dinoObj => {
+    const compareLists = [
+      dinoObj.fact,
+      dinoObj.compareWeight(),
+      dinoObj.compareHeight(),
+      dinoObj.compareDiet()
+    ];
+
+    let randomIndex = Math.floor(Math.random() * compareLists.length);
+
     const dinoTile = document.createElement("div");
 
     dinoTile.className = "grid-item";
     dinoTile.innerHTML = `
         <h3>${dinoObj.species}</h3>
         <img src='./images/${dinoObj.species.toLowerCase()}.png' />
-        <p>${dinoObj.compareDiet()}
+        <p>${compareLists[randomIndex]}
         `;
     tileObjects.push(dinoTile);
   });
