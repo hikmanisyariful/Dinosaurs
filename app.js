@@ -178,9 +178,8 @@ button.addEventListener("click", function() {
     return alert("Please to complete form!");
   }
 
-  humanObject = createHuman(human());
-  console.log("This is humanObject", humanObject);
   generateTiles();
+  generateHumanTile();
   addTilesToDOM();
 });
 
@@ -207,6 +206,19 @@ const generateTiles = () => {
         `;
     tileObjects.push(dinoTile);
   });
+};
+
+const generateHumanTile = () => {
+  const humanObj = createHuman(human());
+  console.log("This is humanObj", humanObj);
+
+  const humanTile = document.createElement("div");
+  humanTile.className = "grid-item";
+  humanTile.innerHTML = `
+    <h3>${humanObj.name}</h3>
+    <img src='./images/human.png' />
+  `;
+  tileObjects.push(humanTile);
 };
 
 // Add tiles to DOM
