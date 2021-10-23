@@ -195,7 +195,11 @@ const generateTiles = () => {
     dinoTile.innerHTML = `
         <h3>${dinoObj.species}</h3>
         <img src='./images/${dinoObj.species.toLowerCase()}.png' />
-        <p>${compareLists[randomIndex]}
+        <p>${
+          dinoObj.species === "Pigeon"
+            ? dinoObj.fact
+            : compareLists[randomIndex]
+        }
         `;
     tileObjects.push(dinoTile);
   });
